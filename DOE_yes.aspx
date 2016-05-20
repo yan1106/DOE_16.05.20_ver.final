@@ -105,6 +105,9 @@
              margin-right: 0cm;
              margin-top: 0cm;
          }
+         .auto-style2 {
+             width: 11px;
+         }
         </style>
         
     <script type="text/javascript">
@@ -132,43 +135,106 @@
 
       
                                                 
-            function createtable(count) {
-                var table_obj = document.getElementById('doe_1');
-                var row = document.getElementById('row_2').rowIndex;
-                var table_title_leng = document.getElementById('doe_1').rows.length;
-                var c = 0;
-                //document.getElementById('a1').textContent = table_title_leng;
-                                    
-                for (i = table_title_leng; i < count+table_title_leng ; i++)
-                {
-                    
-                    var r = document.getElementById('doe_1').insertRow(i)
-                    r.id = "row_" + i;
-                    for(j=0;j<19;j++)
-                    {
-                        
-                        var col = r.insertCell(j);
-                        col.id = r.id + "_" + "col_" + j;
-                        if(c<count){
-                            if(j==0){
-                                col.innerHTML = array_stage[c];
-                            }
-                            if (j == 1)
-                                col.innerHTML = array_SpeChar[c];
-                            if (j == 2)
-                                col.innerHTML = array_md[c];
-                            if (j == 3)
-                                col.innerHTML = array_cate[c];
-                            if (j == 4)
-                                col.innerHTML = array_kp[c];
+        function createtable(count) {
+            var table_obj = document.getElementById('doe_1');
+            var row = document.getElementById('row_2').rowIndex;
+            var table_title_leng = document.getElementById('doe_1').rows.length;
+            var c = 0;
+            //document.getElementById('a1').textContent = table_title_leng;
+
+            for (i = table_title_leng; i < count + table_title_leng ; i++) {
+
+                var r = document.getElementById('doe_1').insertRow(i)
+                r.id = "row_" + i;
+                for (j = 0; j < 19; j++) {
+
+                    var col = r.insertCell(j);
+                    col.id = r.id + "_" + "col_" + j;
+                    if (c < count) {
+                        if (j == 0) {
+                            col.innerHTML = array_stage[c];
                         }
-                        
+                        if (j == 1)
+                            col.innerHTML = array_SpeChar[c];
+                        if (j == 2)
+                            col.innerHTML = array_md[c];
+                        if (j == 3)
+                            col.innerHTML = array_cate[c];
+                        if (j == 4)
+                            col.innerHTML = array_kp[c];
                     }
-                    c++;//計算資料數
-                
+                    if (j == 5) {
+                        var btn = document.createElement("INPUT");
+                        btn.type = "button";
+                        btn.id = "but_" + i + "_" + j;
+                        btn.value = "+"
+                        btn.addEventListener('click', function () { Add_Row(this) });
+                         document.getElementById(r.id + "_" + "col_" + j).appendChild(btn);
+                    }
+                    if (j == 6) {
+                        var btn = document.createElement("INPUT");
+                        btn.type = "button";
+                        btn.id = "but_" + i + "_" + j;
+                        btn.value = "-"
+                        //btn.addEventListener('click', function () { deleteRow(this) });
+                         document.getElementById(r.id + "_" + "col_" + j).appendChild(btn);
+                    }
+                    if(j>6&&j<19)
+                    {
+                        if (j == 8) {
+                            var legs = document.getElementById(r.id + "_" + "col_" + j);
+                            legs.innerHTML = "±";
+                        }
+                        else {
+                            var text = document.createElement("INPUT");
+                            text.type = "text";
+                            text.id = "text_" + i + "_" + j;
+                            text.value = text.id;
+                           
+                            document.getElementById(r.id + "_" + "col_" + j).appendChild(text);
+                            document.getElementById("text_" + i + "_" + j).style.width = "70%";
+                        }
+                    }
+
+
+                    
                 }
-                                              
+                c++;//計算資料數
             }
+        }
+        var vari_count = 0;
+        function Add_Row(row)
+        {
+            row_num = row.parentNode.parentNode.rowIndex;
+            row_count = row_num + 1;
+            rowspan_nun = row_num;
+            vari_count = 0;
+
+            document.getElementById('a1').textContent = row_num;
+            //var eeval = eval("rowspan_count_" + vari_count);
+            //vari_count++;
+            //eeval = 2;
+            var eeval = 2;
+            var rowspan_0 = document.getElementById('doe_1').rows[rowspan_nun].cells[0].rowSpan = eeval;
+            var rowspan_1 = document.getElementById('doe_1').rows[rowspan_nun].cells[1].rowSpan = eeval;
+            var rowspan_2 = document.getElementById('doe_1').rows[rowspan_nun].cells[2].rowSpan = eeval;
+            var rowspan_4 = document.getElementById('doe_1').rows[rowspan_nun].cells[3].rowSpan = eeval;
+            var rowspan_5 = document.getElementById('doe_1').rows[rowspan_nun].cells[4].rowSpan = eeval;
+            
+
+            var r = document.getElementById("doe_1").insertRow(row_count)
+            r.id = "row_" + row_count;
+            for(i=0;i<14;i++)
+            {
+               var col = r.insertCell(i);
+               col.id = r.id + "_" + "col_" + i;
+               col.innerHTML = col.id;
+            }
+
+         
+
+
+        }
 
 
             // set the destination textbox value with the ContactName
@@ -213,7 +279,7 @@
                       <div>Keyparameter</div>
                      </td>
                         
-                     <td class="style-doe-head-gray" style="width:400px;" rowspan="2" colspan="5">
+                     <td class="style-doe-head-gray" style="width:400px;border-right-style:none;" rowspan="2" colspan="5">
                          <div id="show_len"></div>
                         <div>DOE LEGS</div>
                      </td>
@@ -261,9 +327,9 @@
                      <td></td>
                      <td></td>
                      <td></td>
-                     <td >330</td>
-                     <td>±</td>                                                                   
-                     <td>10%</td>
+                     <td  style="border-top-style:solid;border-left-style:solid;border-bottom-style:solid; ">330</td>
+                     <td  style="border-top-style:solid;border-left-style:solid;border-bottom-style:solid; ">±</td>                                                                   
+                     <td style="border-top-style:solid;border-left-style:solid;border-bottom-style:solid; ">10%</td>
                      <td></td>
                      <td></td>
                      <td></td>
@@ -278,6 +344,12 @@
                     <td><!--<input type="button" id ="but2" value="test" onclick="createtable(row_count)" />--></td>
                     <td></td>                                    
                 </tr>
+                
+                
+              
+               
+                
+              
                 
                 
               
